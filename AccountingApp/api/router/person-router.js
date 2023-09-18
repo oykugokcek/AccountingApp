@@ -24,4 +24,17 @@ router.get("/kisiler", async (req, res, next) => {
   }
 });
 
+router.delete("/kisiler/:id", async (req, res, next) => {
+  try {
+    const personId = req.params.id;
+
+    await personModel.deletePersonById(personId);
+
+    res.status(200).json({ message: "Kişi başarıyla silindi." });
+  } catch (error) {
+    console.error("Kişi silinirken bir hata oluştu:", error);
+    res.status(500).json({ error: "Kişi silinirken bir hata oluştu." });
+  }
+});
+
 module.exports = router;

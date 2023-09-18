@@ -3,10 +3,8 @@ const db = require("../../db/db");
 
 
 const addPerson = async (newPeople) => {
-  // Veritabanına yeni kişiyi ekle
   const [newPersonId] = await db("people").insert(newPeople, ["id"]);
 
-  // Eklenen kişiyi getir ve döndür
   return getPersonById(newPersonId);
 };
 
@@ -18,8 +16,21 @@ const getPerson = async () => {
   return db("people");
 }
 
+
+const deletePersonById = async (id) => {
+  const deletedRowCount = await db("people").where("id", id).delete();
+
+  if (deletedRowCount === 0) {
+    throw new Error("Kişi bulunamadı veya silinemedi.");
+  }
+
+  return "Kişi başarıyla silindi.";
+};
+
+
 module.exports = {
   addPerson,
   getPersonById,
-  getPerson
+  getPerson,
+  deletePersonById
 };
