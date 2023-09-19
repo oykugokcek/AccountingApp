@@ -37,4 +37,23 @@ router.delete("/kisiler/:id", async (req, res, next) => {
   }
 });
 
+router.put("/kisiler/:id", async (req, res, next) => {
+  try {
+    const personId = req.params.id;
+    const updatedData = req.body;
+
+    const editedPerson = await personModel.editPersonById(personId, updatedData);
+
+    if (editedPerson) {
+      res.status(200).json(editedPerson);
+    } else {
+      res.status(404).json({ error: "Kişi bulunamadı." });
+    }
+  } catch (error) {
+    console.error("Kişi düzenlenirken bir hata oluştu:", error);
+    res.status(500).json({ error: "Kişi düzenlenirken bir hata oluştu." });
+  }
+});
+
+
 module.exports = router;

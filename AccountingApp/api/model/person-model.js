@@ -27,10 +27,21 @@ const deletePersonById = async (id) => {
   return "Kişi başarıyla silindi.";
 };
 
+const editPersonById = async (id, updatedData) => {
+  const updatedRowCount = await db("people").where("id", id).update(updatedData);
+  
+  if (updatedRowCount === 0) {
+    throw new Error("Kişi bulunamadı veya düzenlenemedi.");
+  }
+
+  return getPersonById(id);
+};
+
 
 module.exports = {
   addPerson,
   getPersonById,
   getPerson,
-  deletePersonById
+  deletePersonById,
+  editPersonById
 };
